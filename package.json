@@ -12,20 +12,16 @@
 	"activationEvents": [],
 	"main": "./extension.js",
 	"contributes": {
-		"commands": [
-			{
-				"command": "htmlTagCommenter.commentTag",
-				"title": "Comment HTML Tag"
-			}
-		],
-		"keybindings": [
-			{
-				"command": "htmlTagCommenter.commentTag",
-				"key": "ctrl+shift+c",
-				"mac": "cmd+shift+c",
-				"when": "editorTextFocus && editorLangId == html"
-			}
-		]
+		"commands": [{
+			"command": "tagToggle.toggleCommentTag", 
+  			"title": "Toggle Comment Tag"
+		}],
+		"keybindings": [{
+			"command": "tagToggle.toggleCommentTag",
+			"key": "ctrl+shift+c",
+			"mac": "cmd+shift+c",
+			"when": "editorTextFocus && editorLangId == html"
+		}]
 	},
 	"scripts": {
 		"lint": "eslint .",
