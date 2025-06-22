@@ -40,8 +40,3 @@
  * [Publish your extension](https://code.visualstudio.com/api/working-with-extensions/publishing-extension) on the VS Code extension marketplace.
  * Automate builds by setting up [Continuous Integration](https://code.visualstudio.com/api/working-with-extensions/continuous-integration).
  * Integrate to the [report issue](https://code.visualstudio.com/api/get-started/wrapping-up#issue-reporting) flow to get issue and feature requests reported by users.
-
-
-1. Create a TXT record in your DNS configuration for the following hostname:_visual-studio-marketplace-jonellwood.jonellwood.dev
-2. Use this code as the value for the TXT record:5bf317bb-6a4d-47ae-b4d8-d3382ab72693
-3. Wait until your DNS configuration changes. This could take up to 72 hours.
