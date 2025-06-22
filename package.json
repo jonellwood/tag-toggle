@@ -25,8 +25,8 @@
 		}],
 		"keybindings": [{
 			"command": "tagToggle.toggleCommentTag",
-			"key": "ctrl+shift+/",
-			"mac": "cmd+shift+/",
+			"key": "ctrl+shift+C",
+			"mac": "cmd+shift+C",
 			"when": "editorTextFocus && editorLangId == html"
 		}]
 	},

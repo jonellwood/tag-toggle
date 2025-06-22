@@ -1,6 +1,6 @@
 # Tag Toggle
 
-Quickly comment and uncomment HTML tags and their matching closing tags with a single keyboard shortcut. Place your cursor on any opening tag and use `Ctrl+Shift+/` (or `Cmd+Shift+/` on macOS) to comment out the entire tag pair, even with hundreds of lines of content in between.
+Quickly comment and uncomment HTML tags and their matching closing tags with a single keyboard shortcut. Place your cursor on any opening tag and use `Ctrl+Shift+C` (or `Cmd+Shift+C` on macOS) to comment out the entire tag pair, even with hundreds of lines of content in between.
 
 ## Features
 
@@ -14,7 +14,7 @@ The Tag Toggle extension provides intelligent HTML tag commenting that works wit
 
 ![Feature Demo](images/tag-toggle.gif)
 
-> Place your cursor anywhere within an HTML tag and press `Ctrl+Shift+/` to comment/uncomment the entire tag pair.
+> Place your cursor anywhere within an HTML tag and press `Ctrl+Shift+C` to comment/uncomment the entire tag pair.
 
 ### Supported Tag Types
 
@@ -32,7 +32,7 @@ The Tag Toggle extension provides intelligent HTML tag commenting that works wit
 
 1. Open an HTML file in VS Code
 2. Place your cursor anywhere within an HTML opening tag (e.g., within `<div class="container">`)
-3. Press `Ctrl+Shift+/` (Windows/Linux) or `Cmd+Shift+/` (macOS)
+3. Press `Ctrl+Shift+C` (Windows/Linux) or `Cmd+Shift+C` (macOS)
 
 The extension will:
 - Comment out both the opening and closing tags if they're currently uncommented
@@ -48,7 +48,7 @@ The extension will:
 </div>
 ```
 
-**After pressing Ctrl+Shift+/ with cursor in the div tag:**
+**After pressing Ctrl+Shift+C with cursor in the div tag:**
 ```html
 <!-- <div class="container"> -->
     <p>This is some content</p>
@@ -60,7 +60,7 @@ The extension will:
 
 This extension contributes the following keybinding:
 
-* `Ctrl+Shift+/` (Windows/Linux) or `Cmd+Shift+/` (macOS): Toggle comment on the HTML tag at cursor position
+* `Ctrl+Shift+C` (Windows/Linux) or `Cmd+Shift+C` (macOS): Toggle comment on the HTML tag at cursor position
 
 The keybinding is currently scoped to HTML files only. To use it in other file types, you can modify the keybinding in your VS Code settings.
 
@@ -74,7 +74,7 @@ The keybinding is currently scoped to HTML files only. To use it in other file t
 
 1. Download the extension from the VS Code Marketplace
 2. Install it in VS Code
-3. Start using it in your HTML files with `Ctrl+Shift+/` (Windows/Linux) or `Cmd+Shift+/` (macOS)
+3. Start using it in your HTML files with `Ctrl+Shift+C` (Windows/Linux) or `Cmd+Shift+C` (macOS)
 
 ## Contributing
 
@@ -88,7 +88,7 @@ Initial release of Tag Toggle extension featuring:
 - Basic HTML tag commenting/uncommenting functionality
 - Support for self-closing tags
 - Nested tag depth tracking
-- Keyboard shortcut integration (`Ctrl+Shift+/` (Windows/Linux) or `Cmd+Shift+/` (macOS))
+- Keyboard shortcut integration (`Ctrl+Shift+C` (Windows/Linux) or `Cmd+Shift+C` (macOS))
 
 ### 0.0.2
 - Added meta data to prepare for publishing on Marketplace
@@ -100,7 +100,7 @@ Initial release of Tag Toggle extension featuring:
 
 Future release of Tag Toggle extension goals:
 - Add support for additional languages
-- Change keybings to `Ctrl+Shift+/` (Windows/Linux) or `Cmd+Shift+/`
+- Change keybings to `Ctrl+Shift+C` (Windows/Linux) or `Cmd+Shift+C`
 
 ---
 
