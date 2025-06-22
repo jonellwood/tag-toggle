@@ -12,7 +12,7 @@ The Tag Toggle extension provides intelligent HTML tag commenting that works wit
 - **Nested Tag Handling**: Correctly handles nested tags of the same type by tracking tag depth
 - **Cursor Position Flexibility**: Works when your cursor is anywhere within the opening tag
 
-![Feature Demo](images/tag-toggle.gif)
+<!-- ![Feature Demo](images/tag-toggle.gif) -->
 
 > Place your cursor anywhere within an HTML tag and press `Ctrl+Shift+C` to comment/uncomment the entire tag pair.
 
