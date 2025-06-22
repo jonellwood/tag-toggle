@@ -1,65 +1,117 @@
-# tag-toggle README
+# Tag Toggle
 
-This is the README for your extension "tag-toggle". After writing up a brief description, we recommend including the following sections.
+Quickly comment and uncomment HTML tags and their matching closing tags with a single keyboard shortcut. Place your cursor on any opening tag and use `Ctrl+Shift+C` (or `Cmd+Shift+C` on macOS) to comment out the entire tag pair, even with hundreds of lines of content in between.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+The Tag Toggle extension provides intelligent HTML tag commenting that works with both opening and closing tag pairs:
 
-For example if there is an image subfolder under your extension project workspace:
+- **Smart Tag Detection**: Automatically finds the matching closing tag for any opening tag, regardless of how many lines are between them
+- **Self-Closing Tag Support**: Handles self-closing tags like `<img>`, `<br>`, `<input>`, etc.
+- **Toggle Functionality**: Comment out tags with one keystroke, uncomment them with the same keystroke
+- **Nested Tag Handling**: Correctly handles nested tags of the same type by tracking tag depth
+- **Cursor Position Flexibility**: Works when your cursor is anywhere within the opening tag
 
-\!\[feature X\]\(images/feature-x.png\)
+![Feature Demo](images/tag-toggle.gif)
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+> Place your cursor anywhere within an HTML tag and press `Ctrl+Shift+C` to comment/uncomment the entire tag pair.
+
+### Supported Tag Types
+
+- **Regular HTML tags**: `<div>`, `<span>`, `<p>`, `<section>`, etc.
+- **Self-closing tags**: `<img>`, `<br>`, `<hr>`, `<input>`, `<meta>`, `<link>`, etc.
+- **Nested tags**: Correctly handles multiple levels of nesting
+- **Tags with attributes**: Works with tags containing any number of attributes
 
 ## Requirements
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+- Visual Studio Code version 1.74.0 or higher
+- HTML files (the keybinding is currently configured to work only in HTML files)
+
+## Usage
+
+1. Open an HTML file in VS Code
+2. Place your cursor anywhere within an HTML opening tag (e.g., within `<div class="container">`)
+3. Press `Ctrl+Shift+C` (Windows/Linux) or `Cmd+Shift+C` (macOS)
+
+The extension will:
+- Comment out both the opening and closing tags if they're currently uncommented
+- Uncomment both tags if they're currently commented
+
+### Example
+
+**Before commenting:**
+```html
+<div class="container">
+    <p>This is some content</p>
+    <span>More content here</span>
+</div>
+```
+
+**After pressing Ctrl+Shift+C with cursor in the div tag:**
+```html
+<!-- <div class="container"> -->
+    <p>This is some content</p>
+    <span>More content here</span>
+<!-- </div> -->
+```
 
 ## Extension Settings
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+This extension contributes the following keybinding:
 
-For example:
+* `Ctrl+Shift+C` (Windows/Linux) or `Cmd+Shift+C` (macOS): Toggle comment on the HTML tag at cursor position
 
-This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+The keybinding is currently scoped to HTML files only. To use it in other file types, you can modify the keybinding in your VS Code settings.
 
 ## Known Issues
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+- The extension currently only activates for HTML files due to the keybinding scope
+- Very complex nested structures with malformed HTML might not be parsed correctly
+- Comments that span multiple lines are not currently supported
+
+## Installation
+
+1. Download the extension from the VS Code Marketplace
+2. Install it in VS Code
+3. Start using it in your HTML files with `Ctrl+Shift+C`
+
+## Contributing
+
+If you encounter any issues or have suggestions for improvements, please feel free to submit an issue or pull request.
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
+### 0.0.1
 
-### 1.0.0
+Initial release of Tag Toggle extension featuring:
+- Basic HTML tag commenting/uncommenting functionality
+- Support for self-closing tags
+- Nested tag depth tracking
+- Keyboard shortcut integration (`Ctrl+Shift+C`)
 
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
+Future release of Tag Toggle extension goals:
+- Add support for additional languages
+- Change keybings
 ---
 
-## Working with Markdown
+## For Developers
 
-You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
+### Project Structure
 
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets
+```
+tag-toggle/
+├── extension.js          # Main extension logic
+├── package.json         # Extension manifest
+├── README.md           # This file
+└── images/            # Screenshots and demos (add your images here)
+```
 
-## For more information
+### Key Functions
 
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
+- `findTagAtPosition()` - Locates HTML tags at the cursor position
+- `findClosingTag()` - Finds matching closing tags with depth tracking
+- `commentOutTag()` - Wraps tags in HTML comments
+- `uncommentTag()` - Removes HTML comment wrappers
 
-**Enjoy!**
+**Enjoy coding with Tag Toggle!**
