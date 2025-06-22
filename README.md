@@ -90,9 +90,18 @@ Initial release of Tag Toggle extension featuring:
 - Nested tag depth tracking
 - Keyboard shortcut integration (`Ctrl+Shift+/` (Windows/Linux) or `Cmd+Shift+/` (macOS))
 
+### 0.0.2
+- Added meta data to prepare for publishing on Marketplace
+- Added Logo Image (thank you Gemini)
+
+### 0.0.3
+- Edited Logo Image, removed white space around logo
+- Chnage defauly keybinding to 
+
 Future release of Tag Toggle extension goals:
 - Add support for additional languages
-- Change keybings
+- Change keybings to `Ctrl+Shift+/` (Windows/Linux) or `Cmd+Shift+/`
+
 ---
 
 ## For Developers

@@ -2,7 +2,7 @@
 	"name": "tag-toggle",
 	"displayName": "tag-toggle",
 	"description": "Quickly comment/uncomment HTML tags and their matching closing tags. Place cursor on any opening tag and use Ctrl+Shift+/ to comment out the entire tag pair, even with hundreds of lines in between.",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"publisher": "jonellwood",
 	"icon": "images/tag-toggle.png",
 	"license": "MIT",
