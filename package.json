@@ -2,7 +2,7 @@
 	"name": "tag-toggle",
 	"displayName": "tag-toggle",
 	"description": "Quickly comment/uncomment HTML tags and their matching closing tags. Place cursor on any opening tag and use Ctrl+Shift+/ to comment out the entire tag pair, even with hundreds of lines in between.",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"publisher": "jonellwood",
 	"icon": "images/tag-toggle.png",
 	"license": "MIT",
@@ -30,38 +30,32 @@
 			},
 			{
 				"command": "tagToggle.setKeybinding",
-				"title": "Set Tag Toggle Keybinding"
-			  },
-			  {
+				"title": "Keybinding Help"
+			},
+			{
 				"command": "tagToggle.checkKeybindingConflict",
-				"title": "Check Keybinding Conflicts"
-			  }
+				"title": "Keybinding Help"
+			}
 		],
 		"keybindings": [
 			{
 				"command": "tagToggle.toggleCommentTag",
 				"key": "ctrl+shift+/",
-				"mac": "cmd+shift+/",
+				"mac": "cmd+shift+C",
 				"when": "editorTextFocus && (editorLangId == html || editorLangId == php || editorLangId == vue)"
 			}
 		],
 		"configuration": {
-        "title": "Tag Toggle",
-        "properties": {
-          "tagToggle.keybinding": {
-            "type": "string",
-            "default": "cmd+shift+/",
-            "description": "Custom keybinding for toggling HTML tag comments (e.g., 'cmd+shift+/', 'ctrl+alt+t')",
-            "scope": "window"
-          },
-          "tagToggle.checkConflictsOnStartup": {
-            "type": "boolean",
-            "default": true,
-            "description": "Check for keybinding conflicts when the extension starts",
-            "scope": "window"
-          }
-        }
-      }
+			"title": "Tag Toggle",
+			"properties": {
+				"tagToggle.keybinding": {
+					"type": "string",
+					"default": "cmd+shift+C",
+					"description": "Display current keybinding for reference (change keybindings through VS Code's Keyboard Shortcuts editor)",
+					"scope": "window"
+				}
+			}
+		}
 	},
 	"scripts": {
 		"lint": "eslint .",

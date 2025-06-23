@@ -1,13 +1,7 @@
-// extension.js - Main extension file with keybinding management
+// extension.js - Main extension file with simplified keybinding management
 const vscode = require('vscode');
 
 function activate(context) {
-    // Check for keybinding conflicts on startup if enabled
-    const config = vscode.workspace.getConfiguration('tagToggle');
-    if (config.get('checkConflictsOnStartup', true)) {
-        setTimeout(() => checkKeybindingConflicts(), 2000); // Delay to ensure VS Code is fully loaded
-    }
-
     // Register the main toggle command
     let toggleDisposable = vscode.commands.registerCommand('tagToggle.toggleCommentTag', function () {
         const editor = vscode.window.activeTextEditor;
@@ -41,167 +35,80 @@ function activate(context) {
         commentOutTag(editor, tagInfo);
     });
 
-    // Register the set keybinding command
+    // Register the set keybinding command - simplified version
     let setKeybindingDisposable = vscode.commands.registerCommand('tagToggle.setKeybinding', async function () {
-        await setCustomKeybinding();
+        await showKeybindingInstructions();
     });
 
-    // Register the check conflicts command
+    // Register the check conflicts command - simplified version
     let checkConflictsDisposable = vscode.commands.registerCommand('tagToggle.checkKeybindingConflict', async function () {
-        await checkKeybindingConflicts();
+        await showKeybindingInstructions();
     });
 
     context.subscriptions.push(toggleDisposable, setKeybindingDisposable, checkConflictsDisposable);
 }
 
-async function setCustomKeybinding() {
-    const currentKeybinding = vscode.workspace.getConfiguration('tagToggle').get('keybinding', 'cmd+shift+/');
-    
-    const newKeybinding = await vscode.window.showInputBox({
-        prompt: 'Enter your preferred keybinding (e.g., cmd+shift+/, ctrl+alt+t)',
-        value: currentKeybinding,
-        placeHolder: 'cmd+shift+/',
-        validateInput: (value) => {
-            if (!value || value.trim() === '') {
-                return 'Keybinding cannot be empty';
-            }
-            
-            // Basic validation for keybinding format
-            const validPattern = /^(ctrl|cmd|alt|shift)(\+(ctrl|cmd|alt|shift))*\+[a-zA-Z0-9\/\\\[\];',\.`\-=]$/;
-            if (!validPattern.test(value.trim())) {
-                return 'Invalid keybinding format. Use modifiers like cmd, ctrl, alt, shift followed by a key (e.g., cmd+shift+/)';
-            }
-            
-            return null;
-        }
-    });
-
-    if (newKeybinding) {
-        try {
-            // Update the configuration
-            await vscode.workspace.getConfiguration('tagToggle').update('keybinding', newKeybinding.trim(), vscode.ConfigurationTarget.Global);
-            
-            // Check for conflicts with the new keybinding
-            const conflicts = await findKeybindingConflicts(newKeybinding.trim());
-            
-            if (conflicts.length > 0) {
-                const conflictList = conflicts.map(c => `• ${c.command} (${c.source})`).join('\n');
-                const choice = await vscode.window.showWarningMessage(
-                    `The keybinding "${newKeybinding}" conflicts with:\n${conflictList}\n\nDo you want to keep this keybinding anyway?`,
-                    'Keep Anyway',
-                    'Choose Different'
-                );
-                
-                if (choice === 'Choose Different') {
-                    return setCustomKeybinding(); // Recursively call to choose again
-                }
-            }
-
-            vscode.window.showInformationMessage(
-                `Keybinding updated to: ${newKeybinding}\n\nNote: You may need to reload VS Code or manually add this keybinding to your keybindings.json file for it to take effect.`
-            );
-
-            // Offer to open keybindings.json
-            const openKeybindings = await vscode.window.showInformationMessage(
-                'Would you like to open the keybindings.json file to manually add the keybinding?',
-                'Open Keybindings',
-                'Not Now'
-            );
-
-            if (openKeybindings === 'Open Keybindings') {
-                vscode.commands.executeCommand('workbench.action.openGlobalKeybindings');
-            }
-
-        } catch (error) {
-            vscode.window.showErrorMessage(`Failed to update keybinding: ${error.message}`);
-        }
-    }
-}
-
-async function checkKeybindingConflicts() {
+async function showKeybindingInstructions() {
     const config = vscode.workspace.getConfiguration('tagToggle');
-    const currentKeybinding = config.get('keybinding', 'cmd+shift+/');
+    const currentKeybinding = config.get('keybinding', 'cmd+shift+C');
     
-    const conflicts = await findKeybindingConflicts(currentKeybinding);
-    
-    if (conflicts.length === 0) {
-        vscode.window.showInformationMessage(`No conflicts found for keybinding: ${currentKeybinding}`);
-        return;
-    }
-
-    const conflictList = conflicts.map(c => `• ${c.command} (${c.source})`).join('\n');
-    const choice = await vscode.window.showWarningMessage(
-        `Keybinding "${currentKeybinding}" conflicts with:\n${conflictList}`,
-        'Change Keybinding',
-        'Ignore',
-        'Open Keybindings Settings'
+    const choice = await vscode.window.showInformationMessage(
+        `Current keybinding: ${currentKeybinding}\n\nTo change keybindings:\n1. Open Command Palette (Cmd+Shift+P)\n2. Type "Preferences: Open Keyboard Shortcuts"\n3. Search for "Toggle HTML Tag Comment"\n4. Click the pencil icon to edit\n\nWould you like to open the Keyboard Shortcuts now?`,
+        'Open Keyboard Shortcuts',
+        'Copy Command ID',
+        'Cancel'
     );
 
     switch (choice) {
-        case 'Change Keybinding':
-            await setCustomKeybinding();
-            break;
-        case 'Open Keybindings Settings':
+        case 'Open Keyboard Shortcuts':
             vscode.commands.executeCommand('workbench.action.openGlobalKeybindings');
             break;
+        case 'Copy Command ID':
+            await vscode.env.clipboard.writeText('tagToggle.toggleCommentTag');
+            vscode.window.showInformationMessage('Command ID copied to clipboard: tagToggle.toggleCommentTag');
+            break;
     }
 }
 
-async function findKeybindingConflicts(keybinding) {
-    try {
-        // Get all current keybindings
-        const allKeybindings = await vscode.commands.executeCommand('vscode.getKeybindings');
-        
-        // Normalize the keybinding for comparison
-        const normalizedKeybinding = normalizeKeybinding(keybinding);
-        
-        const conflicts = [];
-        
-        for (const kb of allKeybindings) {
-            if (kb.keybinding && normalizeKeybinding(kb.keybinding) === normalizedKeybinding) {
-                // Skip our own command
-                if (kb.command === 'tagToggle.toggleCommentTag') {
-                    continue;
-                }
-                
-                conflicts.push({
-                    command: kb.command,
-                    source: kb.source || 'Built-in',
-                    when: kb.when
-                });
-            }
+// Alternative approach: Check for common conflicting keybindings manually
+async function showCommonConflicts() {
+    const config = vscode.workspace.getConfiguration('tagToggle');
+    const currentKeybinding = config.get('keybinding', 'cmd+shift+C');
+    
+    // List of commonly conflicting commands for typical keybindings
+    const commonConflicts = {
+        'cmd+shift+C': [
+            'editor.action.blockComment',
+            'editor.action.commentLine'
+        ],
+        'ctrl+shift+/': [
+            'editor.action.blockComment', 
+            'editor.action.commentLine'
+        ],
+        'ctrl+alt+t': [
+            'workbench.action.terminal.new'
+        ]
+    };
+    
+    const possibleConflicts = commonConflicts[currentKeybinding] || [];
+    
+    if (possibleConflicts.length > 0) {
+        const conflictList = possibleConflicts.map(cmd => `• ${cmd}`).join('\n');
+        const choice = await vscode.window.showWarningMessage(
+            `The keybinding "${currentKeybinding}" may conflict with:\n${conflictList}\n\nThese are common VS Code commands that might use the same keybinding.`,
+            'Open Keyboard Shortcuts',
+            'Ignore'
+        );
+
+        if (choice === 'Open Keyboard Shortcuts') {
+            vscode.commands.executeCommand('workbench.action.openGlobalKeybindings');
         }
-        
-        return conflicts;
-    } catch (error) {
-        console.error('Error checking keybinding conflicts:', error);
-        return [];
+    } else {
+        vscode.window.showInformationMessage(`No known common conflicts for keybinding: ${currentKeybinding}`);
     }
 }
 
-function normalizeKeybinding(keybinding) {
-    if (!keybinding) return '';
-    
-    // Convert to lowercase and normalize modifier order
-    const parts = keybinding.toLowerCase().split('+');
-    const modifiers = [];
-    let key = '';
-    
-    for (const part of parts) {
-        if (['ctrl', 'cmd', 'alt', 'shift', 'meta'].includes(part)) {
-            modifiers.push(part);
-        } else {
-            key = part;
-        }
-    }
-    
-    // Sort modifiers for consistent comparison
-    modifiers.sort();
-    
-    return modifiers.length > 0 ? modifiers.join('+') + '+' + key : key;
-}
-
-// Original functions remain the same
+// Original tag manipulation functions remain the same
 function findTagAtPosition(document, position) {
     const line = document.lineAt(position.line);
     const text = line.text;
