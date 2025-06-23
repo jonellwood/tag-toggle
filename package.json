@@ -16,23 +16,52 @@
 	"categories": [
 		"Other"
 	],
-	"activationEvents": [],
+	"activationEvents": [
+		"onLanguage:html",
+        "onLanguage:php",
+        "onLanguage:vue"
+	],
 	"main": "./extension.js",
 	"contributes": {
 		"commands": [
 			{
 				"command": "tagToggle.toggleCommentTag",
-				"title": "Toggle Comment Tag"
-			}
+				"title": "Toggle HTML Tag Comment"
+			},
+			{
+				"command": "tagToggle.setKeybinding",
+				"title": "Set Tag Toggle Keybinding"
+			  },
+			  {
+				"command": "tagToggle.checkKeybindingConflict",
+				"title": "Check Keybinding Conflicts"
+			  }
 		],
 		"keybindings": [
 			{
 				"command": "tagToggle.toggleCommentTag",
-				"key": "ctrl+shift+C",
-				"mac": "cmd+shift+C",
-				"when": "editorTextFocus && editorLangId == html"
+				"key": "ctrl+shift+/",
+				"mac": "cmd+shift+/",
+				"when": "editorTextFocus && (editorLangId == html || editorLangId == php || editorLangId == vue)"
 			}
-		]
+		],
+		"configuration": {
+        "title": "Tag Toggle",
+        "properties": {
+          "tagToggle.keybinding": {
+            "type": "string",
+            "default": "cmd+shift+/",
+            "description": "Custom keybinding for toggling HTML tag comments (e.g., 'cmd+shift+/', 'ctrl+alt+t')",
+            "scope": "window"
+          },
+          "tagToggle.checkConflictsOnStartup": {
+            "type": "boolean",
+            "default": true,
+            "description": "Check for keybinding conflicts when the extension starts",
+            "scope": "window"
+          }
+        }
+      }
 	},
 	"scripts": {
 		"lint": "eslint .",
